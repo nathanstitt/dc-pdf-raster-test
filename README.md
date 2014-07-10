@@ -19,7 +19,14 @@ Results
 
 PDFIUm and MuPDF are neck and neck in the results.  MuPDF has slightly better file size on PNG, and renders it faster, while PDFIUM is faster on GIf format.  Memory is about equal.
 
+Running the benchmarks
+--------------
 
+The benchmarks may be generated via the `benchmark` script.  The script runs the mupdf, pdfium, gm and poppler commands that are located in the "bin" directory.
+
+The source code for the mupdf and pdfium binaries, and a Makefile to build them is also located in the "bin" directory. The binaries for mupdf and pdfium are staticly linked to the appropriate libraries, and should be easily runnable on a OSX system (*this is untested however*).  They do depend on the freeimage library, which can be installed via `brew install freeimage`
+
+GraphicsMagick and Poppler must also be installed with the brew packages "imagemagick" and "poppler" packages.
 
 
 Issues with the tests
