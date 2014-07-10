@@ -16,8 +16,13 @@ Results
 |GM|202.92 / 183.54|991.47MB / 992.05MB|17M / 132M|
 |POPPLER|71.45 / 69.26|28.05MB / 28.06MB|44M / 44M|
 
+#### Notes
+---
+PDFIUM and MuPDF are neck and neck in the results.  MuPDF is faster ast PNG generation, while slightly slower at GIFs. Memory consumption and file ssize are about equal between the two.
 
-PDFIUm and MuPDF are neck and neck in the results.  MuPDF has slightly better file size on PNG, and renders it faster, while PDFIUM is faster on GIf format.  Memory is about equal.
+Memory usage of Graphics Magic was very surprising.  It used almost a GB of memory, while the other tools stayed around 50MB.
+
+GraphicsMagick also used an inordinate amount of disk space for PNG generation.  This could most likely be fixed by fine-tuning the parameters for the command.
 
 Running the benchmarks
 --------------
