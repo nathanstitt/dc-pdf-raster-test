@@ -36,7 +36,7 @@ CMDS.each do | renderer |
 end
 
 puts '| |Time|Memory|File Size|'
-puts '|-|---:|-----:|--------:|'
+puts '| ------------- | -----------:| -------------:| -----------:|'
 RESULTS.each do | renderer, formats |
     print '|' + renderer.upcase + '|'
     [:time, :memory, :file_size ].each do | key |
