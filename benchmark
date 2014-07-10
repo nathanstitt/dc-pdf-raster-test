@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+require 'active_support/inflector'
+
+if ARGV.empty?
+    STDERR.puts "usage: #{$?} <source directory>"
+    exit 1
+end
+
+SRC_DIR = Pathname.new(ARGV[0]).realpath
+
+CMDS=%w{ mupdf pdfium gm poppler }
+
+FORMATS=%w{gif png}
+
+RESULTS = Hash.new{ | h, key | h[key] = {} }
+
+CMDS.each do | renderer |
+    FORMATS.each do | format |
+        tmp_dir = Pathname.pwd.join("tmp",renderer)
+        tmp_dir.rmtree if tmp_dir.exist?
+        tmp_dir.mkdir
+        cmd = "./bin/#{renderer} #{format} #{SRC_DIR} #{tmp_dir}"
+        results = `/usr/bin/time -lp #{cmd} 2>&1`
+        du = `du -h #{tmp_dir}`
+        puts '*'*10 + " #{renderer} - #{format} " + '*'*10
+        puts results
+        puts  du
+        RESULTS[renderer][format] = {
+            time:   results[/real\s+([\d|\.]+)/m,1],
+            memory: '%0.2fMB' % [ ( results[/(\d+)\s+maximum resident set size/m,1].to_f / 1024 / 1024 ) ],
+            file_size: du[/([\d|\.]+\w+)/,1]
+        }
+    end
+end
+
+puts '| |Time|Memory|File Size|'
+puts '|-|---:|-----:|--------:|'
+RESULTS.each do | renderer, formats |
+    print '|' + renderer.upcase + '|'
+    [:time, :memory, :file_size ].each do | key |
+        print formats['gif'][key] + ' / ' + formats['png'][key] + '|'
+    end
+    print "\n"
+end
+
+#     puts renderer.upcase
+#     puts '-'*80
+#     puts '| | GIF | PNG |'
+#     puts '|----------|-------------:|------:|'
+#     [:time, :memory, :file_size ].each do | key |
+#         puts '|' + key.to_s.titleize + '|' + formats['gif'][key] + '|' + formats['png'][key] + '|'
+#     end
+#     puts "\n"
+# end
+

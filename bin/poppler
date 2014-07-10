@@ -1,0 +1,27 @@
+#!/bin/sh
+
+FORMAT=$1
+SRC=$2
+DEST=$3
+
+if [ -d "$DEST" ]; then
+  rm -r $DEST
+fi
+
+mkdir $DEST
+
+PDFS=$SRC/*
+for pdf in $PDFS
+do
+  echo "Processing $pdf file..."
+  base=`basename $pdf .pdf`
+  pdftocairo -png -scale-to-x 1000 $pdf $DEST/$base-1000
+  pdftocairo -png -scale-to-x 700  $pdf $DEST/$base-700
+  pdftocairo -png -scale-to-x 180  $pdf $DEST/$base-180
+  pdftocairo -png -scale-to-x 60   $pdf $DEST/$base-60
+done
+
+
+if [ "$FORMAT" == "gif" ]; then
+   echo "NO GIFS (yet)"
+fi
