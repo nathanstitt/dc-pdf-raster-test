@@ -10,11 +10,11 @@ Results
 * The results are shown as Gif / PNG formats
 
 | |Time|Memory|File Size|
-|-|---:|-----:|--------:|
-|MUPDF|15.52 / 8.77|55.95MB / 55.56MB|15M / 37M|
-|PDFIUM|11.68 / 16.69|58.51MB / 57.67MB|17M / 37M|
-|GM|202.92 / 183.54|991.47MB / 992.05MB|17M / 132M|
-|POPPLER|71.45 / 69.26|28.05MB / 28.06MB|44M / 44M|
+|--|---|-----|--------|
+| MUPDF | 15.52 / 8.77|55.95MB / 55.56MB | 15M / 37M |
+| PDFIUM | 11.68 / 16.69|58.51MB / 57.67MB | 17M / 37M |
+| GM | 202.92 / 183.54|991.47MB / 992.05MB | 17M / 132M |
+| POPPLER | 71.45 / 69.26|28.05MB / 28.06MB | 44M / 44M |
 
 
 PDFIUm and MuPDF are neck and neck in the results.  MuPDF has slightly better file size on PNG, and renders it faster, while PDFIUM is faster on GIf format.  Memory is about equal.
