@@ -9,12 +9,13 @@ Results
 * Times are number of seconds elapsed.
 * The results are shown as Gif / PNG formats
 
-| | Time | Memory | File Size |
-| -- | --- | ----- | -------- |
+|  program | Time | Memory | File Size |
+| ------------- | ----------- | ------------- | ----------- |
 | MUPDF | 15.52 / 8.77|55.95MB / 55.56MB | 15M / 37M |
 | PDFIUM | 11.68 / 16.69|58.51MB / 57.67MB | 17M / 37M |
 | GM | 202.92 / 183.54|991.47MB / 992.05MB | 17M / 132M |
 | POPPLER | 71.45 / 69.26|28.05MB / 28.06MB | 44M / 44M |
+
 
 | Name | Description          |
 | ------------- | ----------- |
