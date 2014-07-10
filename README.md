@@ -18,9 +18,11 @@ Results
 
 #### Notes
 ---
-PDFIUM and MuPDF are neck and neck in the results.  MuPDF is faster ast PNG generation, while slightly slower at GIFs. Memory consumption and file ssize are about equal between the two.
+PDFIUM and MuPDF are neck and neck in the results.  MuPDF is faster at PNG generation, while slightly slower at GIFs. Memory consumption and file ssize are about equal between the two.
 
-Memory usage of Graphics Magic was very surprising.  It used almost a GB of memory, while the other tools stayed around 50MB.
+Poppler is a bit slower, but that is most likely the result of running it via the pdftocairo utility vs a custom workflow.  GraphicsMagick performance is very bad, **almost 20 times slower**.
+
+Memory usage of Graphics Magic was also very surprising.  It used almost a GB of memory, while the other tools stayed around 50MB.
 
 GraphicsMagick also used an inordinate amount of disk space for PNG generation.  This could most likely be fixed by fine-tuning the parameters for the command.
 
