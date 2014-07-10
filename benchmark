@@ -45,13 +45,3 @@ RESULTS.each do | renderer, formats |
     print "\n"
 end
 
-#     puts renderer.upcase
-#     puts '-'*80
-#     puts '| | GIF | PNG |'
-#     puts '|----------|-------------:|------:|'
-#     [:time, :memory, :file_size ].each do | key |
-#         puts '|' + key.to_s.titleize + '|' + formats['gif'][key] + '|' + formats['png'][key] + '|'
-#     end
-#     puts "\n"
-# end
-
