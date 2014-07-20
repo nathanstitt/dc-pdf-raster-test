@@ -4,58 +4,12 @@ require "tempfile"
 require "optparse"
 require "poppler"
 require "gdk_pixbuf2"
+require 'fileutils'
 
 page = 0
 scale = 1.0
 rotate = 0
 
-parser = OptionParser.new
-parser.banner = <<-BANNER
-Usage: #{parser.program_name} INPUT.PDF OUTPUT [options]
-
-#{parser.program_name} coverts the target page in INPUT.PDF to an image file.
-Many popular image formats such as PNG and JPEG are supported.
-You can specify output image format by OUTPUT file extension.
-For example, the following comand generates PNG file:
-
-  % #{$0} INPUT.PDF OUTPUT.png
-
-BANNER
-
-parser.on("--page=PAGE", Integer,
-          "Use PAGE as the target page",
-          "(0-origin)",
-          "[#{page}]") do |value|
-  page = value.to_i
-end
-
-parser.on("--scale=RATIO", Float,
-          "Scale the target page in INPUT.PDF RATIO times larger in OUTPUT",
-          "[#{scale}]") do |value|
-  scale = value.to_f
-end
-
-parser.on("--rotate=DEGREE", Integer,
-          "Rotate the target page in INPUT.PDF DEGREE degrees clockwise in OUTPUT",
-          "(available values: 0...360)",
-          "[#{rotate}]") do |value|
-  rotate = value.to_i % 360
-end
-
-rest_args = parser.parse!
-if rest_args.size != 2
-  puts(parser.help)
-  exit(false)
-end
-input, output = rest_args
-
-ext_name = File.extname(output)[1..-1]
-if ext_name
-  output_type = ext_name.downcase
-  output_type = "jpeg" if /jpg/ =~ output_type
-else
-  output_type = "png"
-end
 
 def compute_size(width, height, rotate)
   width = width.to_f
@@ -88,9 +42,7 @@ def compute_size(width, height, rotate)
   end
 end
 
-def to_pixbuf_with_cairo(input, page_number, scale, rotate)
-  doc = Poppler::Document.new(input)
-  page = doc[page_number]
+def to_pixbuf_with_cairo(page, scale, rotate)
   width, height = page.size.collect {|x| x * scale}
   surface_width, surface_height = compute_size(width, height, rotate)
 
@@ -118,19 +70,27 @@ def to_pixbuf_with_cairo(input, page_number, scale, rotate)
   Gdk::Pixbuf.new(temp.path)
 end
 
-unless Poppler.cairo_available?
-  puts "cairo isn't available."
-  exit(false)
-end
-pixbuf = to_pixbuf_with_cairo(input, page, scale, rotate)
+format = ARGV[0]
+src    = ARGV[1]
+dest   = ARGV[2]
 
-if pixbuf.nil?
-  puts "Is it a PDF file?: #{input}"
-  exit(-1)
-end
-puts "saving to #{output}(#{pixbuf.width}x#{pixbuf.height})..."
-pixbuf.save(output, output_type)
+FileUtils.rm_rf(dest) if File.exist?(dest)
+Dir.mkdir(dest)
 
+Dir.glob("#{src}/*.pdf").each do | file |
+    doc = Poppler::Document.new(file)
+    puts file
+    0.upto(doc.n_pages()-1).each do |pg|
+        page = doc[pg]
+        [1000,700,180,60].each do | width |
+            scale = width.to_f / page.size[0]
+            pixbuf = to_pixbuf_with_cairo( page, scale, rotate)
+            base = File.basename(file,'.pdf')
+            output = sprintf("%s/%s-%d-%d.%s",dest,base,pg,width,format)
+            pixbuf.save( output, format )
+        end
+    end
+end
 
 
 
