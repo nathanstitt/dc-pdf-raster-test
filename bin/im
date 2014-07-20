@@ -1,0 +1,23 @@
+#!/bin/sh
+
+FORMAT=$1
+SRC=$2
+DEST=$3
+
+if [ -d "$DEST" ]; then
+  rm -r $DEST
+fi
+
+mkdir $DEST
+
+PDFS=$SRC/*
+for pdf in $PDFS
+do
+  echo "Processing $pdf file..."
+  base=`basename $pdf .pdf`
+  convert -density 150 -resize 1000x  $pdf $DEST/$base-1000-%02d.$FORMAT
+  convert -density 150 -resize 700x   $pdf $DEST/$base-700-%02d.$FORMAT
+  convert -density 150 -resize 180x   $pdf $DEST/$base-180-%02d.$FORMAT
+  convert -density 150 -resize 60x    $pdf $DEST/$base-60-%02d.$FORMAT
+done
+

@@ -4,8 +4,9 @@ FORMAT=$1
 SRC=$2
 DEST=$3
 
+BIN=/usr/local/bin/gm
 if [ -d "$DEST" ]; then
-  rm -r $DEST
+    rm -r $DEST
 fi
 
 mkdir $DEST
@@ -13,11 +14,17 @@ mkdir $DEST
 PDFS=$SRC/*
 for pdf in $PDFS
 do
-  echo "Processing $pdf file..."
-  base=`basename $pdf .pdf`
-  convert -density 150 -resize 1000x  $pdf $DEST/$base-1000-%02d.$FORMAT
-  convert -density 150 -resize 700x   $pdf $DEST/$base-700-%02d.$FORMAT
-  convert -density 150 -resize 180x   $pdf $DEST/$base-180-%02d.$FORMAT
-  convert -density 150 -resize 60x    $pdf $DEST/$base-60-%02d.$FORMAT
+    pages=`pdfinfo $pdf | grep Pages | awk '{ print $2 }'`
+    echo "Processing $pages page $pdf file..."
+    base=`basename $pdf .pdf`
+    for page in `seq 0 $pages`;
+    do
+        echo $page
+        master=$DEST/$base-1000-$page.$FORMAT
+        $BIN convert -density 150 -resize 1000x $pdf [$page] $master
+        $BIN convert -resize 700x $master $DEST/$base-700-$page.$FORMAT
+        $BIN convert -resize 180x $master $DEST/$base-180-$page.$FORMAT
+        $BIN convert -resize 60x  $master $DEST/$base-60-$page.$FORMAT
+    done
 done
 

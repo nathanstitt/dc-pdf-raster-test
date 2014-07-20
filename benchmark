@@ -10,7 +10,7 @@ end
 
 SRC_DIR = Pathname.new(ARGV[0]).realpath
 
-CMDS=%w{ mupdf pdfium gm poppler }
+CMDS=%w{ mupdf pdfium gm poppler im }
 
 FORMATS=%w{gif png}
 
