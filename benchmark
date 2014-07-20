@@ -21,10 +21,10 @@ CMDS.each do | renderer |
         tmp_dir = Pathname.pwd.join("tmp",renderer)
         tmp_dir.rmtree if tmp_dir.exist?
         tmp_dir.mkdir
+        puts '*'*10 + " #{renderer} - #{format} " + '*'*10
         cmd = "./bin/#{renderer} #{format} #{SRC_DIR} #{tmp_dir}"
         results = `/usr/bin/time -lp #{cmd} 2>&1`
         du = `du -h #{tmp_dir}`
-        puts '*'*10 + " #{renderer} - #{format} " + '*'*10
         puts results
         puts  du
         RESULTS[renderer][format] = {
