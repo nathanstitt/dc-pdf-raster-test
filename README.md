@@ -9,12 +9,27 @@ Results
 * Times are number of seconds elapsed.
 * The results are shown as Gif / PNG formats
 
+#### Large docset run
+
 | |Time|Memory|File Size|
 | ------------- | -----------:| -------------:| -----------:|
 |MUPDF|15.52 / 8.77|55.95MB / 55.56MB|15M / 37M|
 |PDFIUM|11.68 / 16.69|58.51MB / 57.67MB|17M / 37M|
-|GM|202.92 / 183.54|991.47MB / 992.05MB|17M / 132M|
+|IM|202.92 / 183.54|991.47MB / 992.05MB|17M / 132M|
 |POPPLER|71.45 / 69.26|28.05MB / 28.06MB|44M / 44M|
+
+
+#### Small docs run
+
+After adding Graphics Magick to the bencmarks, the benchmark failed to complete.  I setup a new "small docs" set and performed thsese results.
+
+| |Time|Memory|File Size|
+| ------------- | -----------:| -------------:| -----------:|
+|MUPDF|3.45 / 1.37|33.37MB / 24.00MB|3.0M / 6.5M|
+|PDFIUM|2.45 / 3.05|38.50MB / 37.74MB|3.8M / 7.7M|
+|GM|135.98 / 93.93|143.56MB / 134.90MB|89M / 6.0M|
+|POPPLER|0.74 / 5.72|42.76MB / 206.86MB|0B / 4.7M|
+|IM|47.79 / 39.14|339.21MB / 326.91MB|1.1M / 6.4M|
 
 #### Notes
 ---
